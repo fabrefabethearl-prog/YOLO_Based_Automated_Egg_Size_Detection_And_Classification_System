@@ -58,6 +58,10 @@ The repository includes a Render Blueprint in `render.yaml`. It runs the app on 
 
 The QR pairing link expires after five minutes and can only be used once. Render provides HTTPS for the dashboard and signaling. WebRTC video may need a TURN relay to connect phones across restrictive networks; configure `EGGSCAN_TURN_URLS` and the server-side `EGGSCAN_TURN_SHARED_SECRET` in Render's Environment settings if direct STUN connectivity is not sufficient. Never expose the TURN shared secret in frontend code. A trained `size/best.pt` model is not included in the Blueprint; without it, EggScan uses its built-in fallback detector.
 
+### Render troubleshooting
+
+If Render logs show `npm run start` or a missing `package.json`, the service is configured as a Node service instead of using this Python Blueprint. Do not add a `package.json` to this Python project. In Render, sync/deploy the Blueprint from the repository root so the `eggscan` service uses the Python runtime and the commands in `render.yaml`. If configuring a web service manually, set **Root Directory** to the repository root, **Runtime** to Python, **Build Command** to `pip install -r requirements.txt`, and **Start Command** to `python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'`. Save and redeploy; the logs should show Uvicorn listening on `0.0.0.0` and Render's assigned port.
+
 ## Run
 
 ```text
