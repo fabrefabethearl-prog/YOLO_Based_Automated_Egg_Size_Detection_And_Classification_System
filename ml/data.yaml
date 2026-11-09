@@ -1,0 +1,15 @@
+# Size class comes from the measured size of the egg. Length and area assign Small through Jumbo.
+# Dimensions mode can still use a single detector class named egg; the app then applies these bands.
+# Model mode requires these five class names, in this order.
+nc: 5
+path: ../data/dataset
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: Small
+  1: Medium
+  2: Large
+  3: Extra Large
+  4: Jumbo

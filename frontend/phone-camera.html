@@ -1,0 +1,37 @@
+it<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#13372c" />
+  <title>Share phone camera · EggScan</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; background: #f5f1e8; color: #13372c; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 18px; }
+    main { width: min(100%, 560px); padding: 24px; background: white; border-radius: 16px; box-shadow: 0 12px 36px #13372c1a; }
+    h1 { margin: 0 0 8px; font-size: 1.5rem; }
+    p { line-height: 1.5; }
+    video { display: block; width: min(100%, 55vh); height: auto; aspect-ratio: 1 / 1; margin: 0 auto; background: #14231d; border-radius: 12px; object-fit: cover; }
+    .status { min-height: 1.5em; font-weight: 700; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    button { min-height: 44px; padding: 10px 16px; border: 0; border-radius: 9px; background: #13372c; color: white; font-weight: 700; }
+    button.secondary { background: #e9eee9; color: #13372c; }
+    button:disabled { opacity: .55; }
+    .error { color: #9c3025; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Share this phone camera</h1>
+    <p id="phone-instructions">Your phone is ready to connect to the Smart Egg Size Detection System. Tap <strong>Start Sharing</strong> and allow camera access when your browser asks. Keep this page open while your camera is connected. Video is sent directly to EggScan on your local network.</p>
+    <video id="phone-preview" autoplay playsinline muted></video>
+    <p id="phone-status" class="status" role="status" aria-live="polite">Ready to connect.</p>
+    <div class="actions">
+      <button id="phone-start" type="button" disabled>Start Sharing</button>
+      <button id="phone-stop" class="secondary" type="button" disabled>Stop sharing</button>
+    </div>
+  </main>
+  <script src="/static/js/phone-camera.js"></script>
+</body>
+</html>

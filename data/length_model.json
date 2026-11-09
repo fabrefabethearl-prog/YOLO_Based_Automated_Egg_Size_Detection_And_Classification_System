@@ -1,0 +1,28 @@
+{
+  "feature": "area_mm2",
+  "task": "size classifier",
+  "note": "YOLO does not read the box size. This classifier uses length times width for each egg.",
+  "classes": [
+    "Small",
+    "Medium",
+    "Large",
+    "Extra Large",
+    "Jumbo"
+  ],
+  "min_area_mm2": [
+    0.0,
+    23947.46,
+    25738.93,
+    27547.48,
+    28986.79
+  ],
+  "median_area_mm2": [
+    23356.3,
+    24538.62,
+    26939.23,
+    28155.72,
+    29817.85
+  ],
+  "samples": 120,
+  "trained_at": "2026-10-14T16:33:25.602740Z"
+}

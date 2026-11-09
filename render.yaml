@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: eggscan
+    runtime: python
+    plan: starter
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: 'python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips=*'
+    healthCheckPath: /
+    disk:
+      name: eggscan-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////var/data/eggscan.db
+      - key: EGGSCAN_DATA_DIR
+        value: /var/data
+      - key: EGGSCAN_COOKIE_SECURE
+        value: "true"
+      - key: EGGSCAN_LOCAL_DEMO_LOGIN
+        value: "false"
+      - key: ADMIN_SESSION_TTL_MINUTES
+        value: "720"
+      - key: EGGSCAN_STUN_URLS
+        value: stun:stun.l.google.com:19302
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: SMTP_EMAIL
+        sync: false
+      - key: SMTP_APP_PASSWORD
+        sync: false
+      - key: EGGSCAN_PHONE_BASE_URL
+        sync: false

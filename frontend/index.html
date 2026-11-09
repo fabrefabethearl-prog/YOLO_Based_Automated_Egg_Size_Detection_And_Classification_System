@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EggScan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;0,9..40,700;1,9..40,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="/static/css/login.css" />
+  <link rel="stylesheet" href="/static/css/defense.css" />
+  <link rel="stylesheet" href="/static/css/live.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='34' rx='18' ry='24' fill='%23f6f1e5'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <section id="login-view" class="lg-screen">
+    <svg class="lg-split" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="lg-hero-fill" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0d2f25" />
+          <stop offset="58%" stop-color="#13372c" />
+          <stop offset="100%" stop-color="#1b4a3a" />
+        </linearGradient>
+        <linearGradient id="lg-gold-edge" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e9b44c" />
+          <stop offset="100%" stop-color="#d99a2b" />
+        </linearGradient>
+      </defs>
+      <path id="lg-split-fill" fill="url(#lg-hero-fill)" d="M0 0 H900 C1080 140 990 430 1120 900 H0 Z" />
+      <path id="lg-split-line" fill="none" stroke="url(#lg-gold-edge)" stroke-width="2.5" d="M900 0 C1080 140 990 430 1120 900" />
+    </svg>
+    <div class="lg-hero">
+      <div class="lg-atmosphere" aria-hidden="true">
+        <div class="lg-glow"></div>
+        <svg class="lg-waves" viewBox="0 0 640 220" width="640" height="220">
+          <path d="M0 150 C80 110 140 180 220 140 C300 100 340 170 440 130 C520 98 580 150 640 120 L640 220 L0 220 Z" fill="rgba(8,36,28,0.45)" />
+          <path d="M0 180 C120 140 180 200 280 168 C390 132 460 190 640 150 L640 220 L0 220 Z" fill="rgba(19,55,44,0.35)" />
+        </svg>
+        <svg class="lg-leaves" viewBox="0 0 280 180" width="280" height="180">
+          <g fill="#14382c" opacity="0.55">
+            <ellipse cx="70" cy="110" rx="54" ry="22" transform="rotate(-28 70 110)" />
+            <ellipse cx="120" cy="78" rx="48" ry="18" transform="rotate(18 120 78)" />
+            <ellipse cx="168" cy="120" rx="60" ry="20" transform="rotate(-12 168 120)" />
+            <ellipse cx="46" cy="70" rx="36" ry="14" transform="rotate(-50 46 70)" />
+          </g>
+        </svg>
+        <svg class="lg-nest" viewBox="0 0 260 140" width="260" height="140">
+          <ellipse cx="130" cy="108" rx="92" ry="22" fill="#3a2a1c" />
+          <ellipse cx="78" cy="78" rx="28" ry="36" fill="#c49262" />
+          <ellipse cx="130" cy="70" rx="32" ry="42" fill="#d7ae84" />
+          <ellipse cx="184" cy="80" rx="26" ry="34" fill="#b8885c" />
+        </svg>
+        <div class="lg-vignette"></div>
+      </div>
+      <header class="lg-title">
+        <svg class="lg-logo" viewBox="0 0 64 48" width="64" height="48" aria-hidden="true">
+          <path d="M14 34c0-8 6-16 16-16 4 0 6 2 8 2 6 0 12-6 16-6 2 6-2 12-8 14" />
+          <path d="M18 22c2-6 6-10 10-10" />
+          <path d="M40 16c2-3 5-4 7-3" />
+          <circle cx="46" cy="14" r="1.2" fill="#e9b44c" stroke="none" />
+          <path d="M22 34c2 6 8 10 14 10s12-5 14-12" />
+          <path d="M30 44v4M38 44v4" />
+          <ellipse cx="18" cy="36" rx="6" ry="8" />
+        </svg>
+        <h1><span class="lg-smart">Smart</span><span class="lg-gold">Egg:</span></h1>
+        <p class="lg-headline">YOLO-Based<br />Chicken Egg Size Detection</p>
+        <div class="lg-rule" aria-hidden="true"><span></span><i></i><b></b></div>
+        <p class="lg-lede">An AI and ESP32-Based System for Automated Egg Size Classification</p>
+      </header>
+      <div class="lg-stage-row">
+        <div id="egg-stage" class="lg-stage" aria-hidden="true"></div>
+        <svg class="lg-connector" viewBox="0 0 90 220" width="90" height="220" aria-hidden="true">
+          <path d="M6 36 C48 36 46 28 84 22" />
+          <circle cx="84" cy="22" r="2.2" />
+        </svg>
+        <ul id="lg-sizes" class="lg-sizes" aria-label="Egg size classes"></ul>
+      </div>
+      <ul class="lg-features">
+        <li class="lg-feature">
+          <span class="lg-ficon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><rect x="7" y="7" width="10" height="10" rx="2" /><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4" /></svg></span>
+          <span>YOLO Detection</span>
+        </li>
+        <li class="lg-feature">
+          <span class="lg-ficon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 8h3l2-2h6l2 2h3v11H4z" /><circle cx="12" cy="13" r="3.2" /></svg></span>
+          <span>ESP32 Vision</span>
+        </li>
+        <li class="lg-feature">
+          <span class="lg-ficon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 3l7 3v6c0 4.2-2.8 7.2-7 9-4.2-1.8-7-4.8-7-9V6z" /><path d="M8.5 12.2l2.2 2.2 4.8-5" /></svg></span>
+          <span>Accurate &amp; Reliable</span>
+        </li>
+        <li class="lg-feature">
+          <span class="lg-ficon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 19h16" /><path d="M7 16V10M12 16V6M17 16v-4" /></svg></span>
+          <span>Automated Classification</span>
+        </li>
+      </ul>
+    </div>
+    <div class="lg-panel">
+      <form id="login-form" class="lg-card">
+        <p class="lg-kicker"><span aria-hidden="true"></span>ADMIN</p>
+        <h2>Sign in</h2>
+        <p class="lg-card-copy">Sign in with your administrator account to open the dashboard.</p>
+        <label class="lg-field">
+          <span class="lg-sr">Administrator email</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 6h16v12H4z" /><path d="M4 7l8 6 8-6" /></svg>
+          <input id="login-email" name="email" type="email" autocomplete="username" placeholder="Email" value="" required />
+        </label>
+        <label class="lg-field">
+          <span class="lg-sr">Password</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Password" required />
+          <button id="lg-toggle-password" class="lg-eye" type="button" aria-label="Show password" aria-pressed="false">
+            <svg class="lg-eye-open" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z" /><circle cx="12" cy="12" r="2.5" /></svg>
+            <svg class="lg-eye-shut" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 4l18 16" /><path d="M9.5 9.8A3.2 3.2 0 0 0 12 15a3 3 0 0 0 2.4-1.2" /><path d="M6.2 7.2C4 8.6 2.4 11 2 12c1.2 2 4.2 6 10 6 1.6 0 3-.4 4.2-1M10 6.2C10.6 6.1 11.3 6 12 6c5.8 0 8.8 4 10 6-.3.6-1 1.6-1.8 2.5" /></svg>
+          </button>
+        </label>
+        <p id="login-error" class="lg-error" role="alert" aria-live="polite"></p>
+        <button id="login-submit" class="lg-submit" type="submit">
+          <span class="lg-submit-label">Sign in</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h12" /><path d="M13 6l6 6-6 6" /></svg>
+        </button>
+        <p class="lg-foot"><span aria-hidden="true"></span><svg viewBox="0 0 24 24" width="16" height="18" aria-hidden="true"><ellipse cx="12" cy="13" rx="6" ry="8" /></svg>Smarter Detection • Better Farming<span aria-hidden="true"></span></p>
+      </form>
+      <form id="otp-form" class="lg-card" hidden>
+        <p class="lg-kicker"><span aria-hidden="true"></span>EMAIL VERIFICATION</p>
+        <h2>Check your email</h2>
+        <p class="lg-card-copy">Enter the 6-digit code sent to <strong id="otp-email-label"></strong>. The code expires in 5 minutes.</p>
+        <label class="lg-field">
+          <span class="lg-sr">Six-digit verification code</span>
+          <input id="otp-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required />
+        </label>
+        <p id="otp-error" class="lg-error" role="alert" aria-live="polite"></p>
+        <button id="otp-submit" class="lg-submit" type="submit">
+          <span class="lg-submit-label">Verify and continue</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h12" /><path d="M13 6l6 6-6 6" /></svg>
+        </button>
+        <div class="lg-otp-actions">
+          <button id="otp-resend" class="lg-secondary" type="button">Resend code</button>
+          <button id="otp-change-email" class="lg-secondary" type="button">Use another account</button>
+        </div>
+        <p class="lg-foot"><span aria-hidden="true"></span><svg viewBox="0 0 24 24" width="16" height="18" aria-hidden="true"><ellipse cx="12" cy="13" rx="6" ry="8" /></svg>Smarter Detection â€¢ Better Farming<span aria-hidden="true"></span></p>
+      </form>
+    </div>
+  </section>
+
+  <div id="app-view" class="app-view" hidden>
+    <div id="nav-backdrop" class="nav-backdrop"></div>
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <strong>EggScan</strong>
+          <span>Size detection</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn active" type="button" data-page="overview"><span>01</span>Overview</button>
+        <button class="nav-btn" type="button" data-page="live"><span>02</span>Live scan</button>
+        <button class="nav-btn" type="button" data-page="records"><span>03</span>Scan records <span id="def-weigh-badge" class="def-badge" hidden>0</span></button>
+        <button class="nav-btn" type="button" data-page="dataset"><span>04</span>Dataset</button>
+        <button class="nav-btn" type="button" data-page="report"><span>05</span>Report</button>
+        <button class="nav-btn" type="button" data-page="logs"><span>06</span>Activity logs</button>
+      </nav>
+      <p class="sidebar-foot">Size class comes from measured area, or from the model when it predicts a size class.</p>
+    </aside>
+
+    <div class="shell">
+      <header class="topbar">
+        <div class="topbar-title">
+          <button id="menu-btn" class="btn btn-ghost menu-btn" type="button" aria-label="Open menu">Menu</button>
+          <div>
+            <p id="page-kicker" class="eyebrow dark">Dashboard</p>
+            <h2 id="page-title">Overview</h2>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <span id="mock-badge" class="badge badge-mock" hidden>Mock mode</span>
+          <span id="yolo-badge" class="badge badge-live" hidden>YOLO</span>
+          <span id="who" class="who"></span>
+          <button id="logout" class="btn btn-ghost" type="button">Log out</button>
+        </div>
+      </header>
+
+      <section id="page-overview" class="page active">
+        <header class="overview-heading">
+          <div>
+            <p class="eyebrow dark">Operations dashboard</p>
+            <h3>Today at a glance</h3>
+            <p>Monitor egg scans, model performance, and verification progress.</p>
+          </div>
+          <button id="overview-refresh" class="btn btn-ghost" type="button">Refresh overview</button>
+        </header>
+        <div id="overview-loading" class="overview-state" role="status" hidden><span class="overview-spinner" aria-hidden="true"></span>Loading overview…</div>
+        <div id="overview-error" class="overview-state overview-error" role="alert" hidden><span id="overview-error-text">Overview data could not be loaded.</span><button id="overview-retry" class="btn btn-ghost" type="button">Try again</button></div>
+        <div id="overview-content" hidden>
+          <div class="stats overview-stats">
+            <article class="card stat def-click" data-def-go="records" data-def-correct="all" role="button" tabindex="0"><p>Saved scans</p><strong id="stat-total">—</strong><span id="stat-total-note">All recorded detections</span></article>
+            <article class="card stat"><p>Verified</p><strong id="stat-verified">—</strong><span id="stat-verified-note">Actual class recorded</span></article>
+            <article class="card stat def-click" data-def-go="report" role="button" tabindex="0"><p>Accuracy</p><strong id="stat-accuracy">—</strong><span id="stat-accuracy-note">Against verified labels</span></article>
+            <article class="card stat def-click" data-def-go="live" role="button" tabindex="0"><p>Avg. processing</p><strong id="stat-ms">—</strong><span>Milliseconds per saved scan</span></article>
+            <article class="card stat def-click" data-def-go="report" role="button" tabindex="0"><p>Avg. confidence</p><strong id="stat-conf">—</strong><span id="stat-conf-note">Mean detection confidence</span></article>
+          </div>
+          <section class="overview-ops" aria-label="System status and verification progress">
+            <div class="overview-ops-main">
+              <div class="overview-section-title"><div><p class="eyebrow dark">System status</p><h3>Scan readiness</h3></div></div>
+              <div id="def-status" class="def-status"></div>
+            </div>
+            <div class="overview-ops-progress">
+              <div class="overview-section-title"><div><p class="eyebrow dark">Data quality</p><h3>Verification coverage</h3></div><span id="stat-coverage">—</span></div>
+              <div id="def-progress"></div>
+            </div>
+            <div class="overview-actions">
+              <button id="def-go-scan" class="btn btn-primary" type="button">Start a scan</button>
+              <button id="def-go-weigh" class="btn btn-green" type="button">Review pending <span id="def-weigh-count" class="def-badge" hidden>0</span></button>
+            </div>
+          </section>
+        <div class="grid-2">
+          <article class="card overview-chart-card">
+            <div class="card-head"><div><p class="eyebrow dark">Activity</p><h3>Scans in the last 14 days</h3></div><span class="overview-chart-note">Daily saved records</span></div>
+            <div id="days-empty" class="empty" hidden>No data yet</div>
+            <canvas id="chart-days" class="chart" role="button" tabindex="0" aria-label="Daily scan totals over the last 14 days. Activate to view scan records."></canvas>
+          </article>
+          <article class="card overview-distribution-card">
+            <div class="card-head"><div><p class="eyebrow dark">Classification</p><h3>Predicted size classes</h3></div></div>
+            <div id="dist-empty" class="empty" hidden>No data yet</div>
+            <div id="dist-list" class="dist-list"></div>
+          </article>
+        </div>
+        <article class="card">
+          <div class="card-head"><div><p class="eyebrow dark">Recent activity</p><h3>Latest scans</h3></div><button class="btn btn-ghost overview-records-link" type="button" data-def-go="records">View all records</button></div>
+          <div id="recent-empty" class="empty" hidden>No data yet</div>
+          <div id="overview-recent-table-wrap" class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>When</th><th>Class</th><th>L mm</th><th>W mm</th><th>Area</th><th>Conf.</th></tr>
+              </thead>
+              <tbody id="recent-body"></tbody>
+            </table>
+          </div>
+        </article>
+        </div>
+      </section>
+
+      <section id="page-live" class="page">
+        <p id="mock-note" class="callout" hidden>Mock mode is on. OpenCV is looking for an egg-shaped blob until a trained model file is loaded.</p>
+        <div id="def-pipeline" class="def-pipe" aria-label="Scan pipeline"></div>
+        <div class="live-grid">
+          <article class="card">
+            <div id="stage" class="stage">
+              <div id="live-view" class="live-view" hidden>
+                <video id="cam" autoplay playsinline muted></video>
+                <img id="esp-view" alt="" hidden />
+                <div id="live-no-egg" class="live-no-egg" role="status" hidden>
+                  <span aria-hidden="true">!</span>No Egg Detected — Position an egg within the camera view.
+                </div>
+              </div>
+              <div id="live-hud" class="live-hud" hidden></div>
+              <canvas id="snap" hidden></canvas>
+              <button id="btn-remove-upload" class="stage-remove-upload" type="button" aria-label="Remove uploaded photo" title="Remove uploaded photo" hidden>
+                <span aria-hidden="true">×</span> Remove photo
+              </button>
+              <div id="stage-empty" class="stage-empty">
+                <div>
+                  <p class="live-off-title">Camera is off</p>
+                  <button id="btn-cam-hero" class="btn btn-green live-start" type="button">Start scan</button>
+                </div>
+              </div>
+            </div>
+            <div class="button-row">
+              <button id="btn-cam" class="btn btn-green" type="button">Start scan</button>
+              <label class="camera-source-label">Camera source
+                <select id="camera-source" aria-label="Camera source">
+                  <option value="computer">Computer camera</option>
+                  <option value="esp32">ESP32 camera</option>
+                  <option value="phone">Phone camera</option>
+                </select>
+              </label>
+              <label class="esp-ip">ESP32 IP
+                <input id="esp-ip" type="text" inputmode="decimal" placeholder="192.168.254.20" autocomplete="off" spellcheck="false" />
+              </label>
+              <button id="btn-esp" class="btn btn-ghost" type="button">Use ESP32</button>
+              <button id="btn-capture" class="btn btn-primary" type="button">Save scan</button>
+              <label class="btn btn-ghost file-btn">Upload image
+                <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,image/bmp" hidden />
+              </label>
+            </div>
+            <section id="phone-pair-panel" class="phone-pair-panel" aria-live="polite" hidden>
+              <div>
+                <h3>Connect phone camera</h3>
+                <p id="phone-pair-status">A temporary QR code will appear here. Keep both devices on the same Wi-Fi.</p>
+                <a id="phone-pair-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+                <div class="button-row">
+                  <button id="phone-pair-copy" class="btn btn-ghost" type="button">Copy link</button>
+                  <button id="phone-pair-renew" class="btn btn-ghost" type="button">Generate new QR code</button>
+                  <button id="phone-pair-close" class="btn btn-ghost" type="button">Close</button>
+                </div>
+              </div>
+              <img id="phone-pair-qr" alt="Temporary phone camera pairing QR code" />
+            </section>
+          </article>
+          <div class="stack">
+            <article class="card" id="result-panel">
+              <p id="live-status" class="live-status">Scan stopped</p>
+              <p id="live-reason" class="hint"></p>
+              <p id="live-geometry" class="hint"></p>
+              <p id="live-count" class="live-count">Detected eggs: 0</p>
+              <ul id="live-summary" class="live-summary"></ul>
+              <h3 id="live-class" class="result-class">—</h3>
+              <div class="result-grid">
+                <div><span>L × W</span><strong id="live-size">—</strong></div>
+                <div><span>Confidence</span><strong id="live-conf">—</strong></div>
+                <div><span>Inference</span><strong id="live-ms">—</strong></div>
+              </div>
+              <details id="live-verify" hidden>
+                <summary>Verify actual size class (optional)</summary>
+                <div class="button-row">
+                  <select id="live-actual-class" aria-label="Actual size class"></select>
+                  <button id="live-verify-save" class="btn btn-primary" type="button">Save</button>
+                </div>
+              </details>
+              <div id="live-save-slot"></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-records" class="page">
+        <header class="records-heading">
+          <p>Recorded egg predictions and verification results. Select a record to review its image and metadata.</p>
+          <button id="rec-refresh" class="btn btn-ghost" type="button">Refresh records</button>
+        </header>
+        <section id="rec-summary" class="records-summary" aria-label="Scan record summary" aria-live="polite">
+          <article class="records-kpi"><span>Total records</span><strong id="rec-kpi-total">—</strong><small>All saved scans</small></article>
+          <article class="records-kpi"><span>Verified</span><strong id="rec-kpi-verified">—</strong><small>Actual class recorded</small></article>
+          <article class="records-kpi"><span>Pending</span><strong id="rec-kpi-pending">—</strong><small>Awaiting verification</small></article>
+          <article class="records-kpi is-correct"><span>Correct</span><strong id="rec-kpi-correct">—</strong><small>Among verified records</small></article>
+          <article class="records-kpi is-incorrect"><span>Incorrect</span><strong id="rec-kpi-incorrect">—</strong><small>Among verified records</small></article>
+        </section>
+        <article class="card records-card">
+          <div class="records-toolbar" role="search" aria-label="Filter scan records">
+            <label class="records-search">Search records
+              <input id="rec-q" type="search" placeholder="Record ID or predicted class" autocomplete="off" />
+            </label>
+            <label>Predicted class
+              <select id="rec-class"><option value="">All classes</option></select>
+            </label>
+            <label>Verification result
+              <select id="rec-correct">
+                <option value="all">All records</option>
+                <option value="unlabeled">Pending verification</option>
+                <option value="correct">Verified · correct</option>
+                <option value="miss">Verified · mismatch</option>
+              </select>
+            </label>
+            <label>Actual class
+              <select id="rec-actual"><option value="">All actual classes</option></select>
+            </label>
+            <label>From date
+              <input id="rec-from" type="date" aria-label="From date" />
+            </label>
+            <label>To date
+              <input id="rec-to" type="date" aria-label="To date" />
+            </label>
+            <div class="records-toolbar-actions">
+              <button id="rec-reset" class="btn btn-ghost" type="button" disabled>Clear filters</button>
+              <button id="rec-weigh" class="btn btn-ghost" type="button">Pending only</button>
+              <button id="rec-export" class="btn btn-green" type="button">Export CSV</button>
+            </div>
+          </div>
+          <div id="rec-active-filters" class="records-active-filters" aria-live="polite" hidden></div>
+          <div id="rec-loading" class="records-state" role="status" hidden><span class="records-spinner" aria-hidden="true"></span>Loading scan records…</div>
+          <div id="rec-error" class="records-state records-error" role="alert" hidden><span id="rec-error-text">Scan records could not be loaded.</span><button id="rec-retry" class="btn btn-ghost" type="button">Retry</button></div>
+          <div id="rec-empty" class="records-empty" hidden><strong>No scan records yet</strong><span>New saved scans will appear here.</span></div>
+          <div id="rec-no-matches" class="records-empty" hidden><strong>No records match these filters</strong><span>Adjust your search or clear the active filters.</span><button id="rec-no-matches-reset" class="btn btn-ghost" type="button">Clear filters</button></div>
+          <div id="rec-table-wrap" class="records-table-wrap">
+            <table class="records-table">
+              <caption class="records-visually-hidden">Saved scan records matching the current filters, newest first.</caption>
+              <thead><tr><th scope="col">Record</th><th scope="col">Image</th><th scope="col">Captured</th><th scope="col">Prediction</th><th scope="col">Verification</th><th scope="col">Measurements</th><th scope="col"><span class="records-visually-hidden">Actions</span></th></tr></thead>
+              <tbody id="rec-body"></tbody>
+            </table>
+          </div>
+          <div class="records-footer"><p id="rec-range" class="hint" aria-live="polite"></p><label class="records-page-size">Rows per page
+            <select id="rec-page-size" aria-label="Rows per page"><option value="8">8</option><option value="16">16</option><option value="32">32</option></select>
+          </label><div id="rec-pager" class="pager"></div></div>
+        </article>
+      </section>
+
+      <section id="page-dataset" class="page">
+        <div class="stats dataset-summary" id="data-summary"></div>
+        <div class="grid-2 dataset-layout">
+          <article class="card prepared-overview-card" aria-labelledby="prepared-overview-title">
+            <div class="card-head prepared-overview-head">
+              <div><h3 id="prepared-overview-title">Prepared dataset</h3><p class="hint">A quick view of your annotations and training split.</p></div>
+              <span id="prepared-status" class="prepared-status">Loading…</span>
+            </div>
+            <section class="prepared-coverage" aria-label="Annotation coverage">
+              <div class="prepared-coverage-copy"><span>Annotation coverage</span><strong id="prepared-coverage-value">—</strong></div>
+              <div class="prepared-track" role="progressbar" aria-label="Images with saved annotations" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="prepared-coverage-bar"></span></div>
+              <p id="prepared-coverage-note" class="hint">Checking saved labels…</p>
+            </section>
+            <section class="prepared-quality" aria-label="Dataset contents">
+              <div><span>Classes represented</span><strong id="prepared-class-count">0 / 5</strong></div>
+              <div><span>Saved egg boxes</span><strong id="prepared-box-count">0</strong></div>
+            </section>
+            <section class="prepared-split-section" aria-labelledby="prepared-split-title">
+              <div class="prepared-section-title"><h4 id="prepared-split-title">Training split</h4><span id="prepared-total">0 images</span></div>
+              <div id="prepared-split-bar" class="prepared-split-bar" role="img" aria-label="Dataset split distribution"></div>
+              <div id="prepared-splits" class="prepared-splits"></div>
+            </section>
+            <div id="prepared-empty" class="prepared-empty" hidden>
+              <span class="prepared-empty-icon" aria-hidden="true">◎</span>
+              <strong>No prepared dataset yet</strong>
+              <p>Upload your class folders, save the egg annotations, then prepare the dataset to see its split here.</p>
+            </div>
+            <section class="prepared-class-readiness" aria-labelledby="data-ready-title">
+              <div class="prepared-section-title"><h4 id="data-ready-title">Classes ready</h4><span id="data-ready">0 / 5 ready</span></div>
+              <div id="data-class-list" class="dist-list" aria-live="polite"></div>
+            </section>
+            <p class="prepared-footnote">Your saved egg boxes become YOLO detection labels. Split counts update after the dataset is prepared.</p>
+          </article>
+          <article class="card">
+            <div class="card-head"><h3>Upload class folders</h3></div>
+            <form id="data-form" class="form-grid">
+              <div class="data-class-grid data-span">
+              <div class="data-class">
+                <label>Small
+                  <input id="data-class-small" data-class="small" type="file" webkitdirectory directory multiple />
+                </label>
+                <button class="btn" type="button" data-annotate="small">Annotate</button>
+                <button class="btn btn-danger" type="button" data-delete-images="small" disabled>Delete images</button>
+                <p class="hint" data-annotate-status="small">0 / 0 annotated</p>
+              </div>
+              <div class="data-class">
+                <label>Medium
+                  <input id="data-class-medium" data-class="medium" type="file" webkitdirectory directory multiple />
+                </label>
+                <button class="btn" type="button" data-annotate="medium">Annotate</button>
+                <button class="btn btn-danger" type="button" data-delete-images="medium" disabled>Delete images</button>
+                <p class="hint" data-annotate-status="medium">0 / 0 annotated</p>
+              </div>
+              <div class="data-class">
+                <label>Large
+                  <input id="data-class-large" data-class="large" type="file" webkitdirectory directory multiple />
+                </label>
+                <button class="btn" type="button" data-annotate="large">Annotate</button>
+                <button class="btn btn-danger" type="button" data-delete-images="large" disabled>Delete images</button>
+                <p class="hint" data-annotate-status="large">0 / 0 annotated</p>
+              </div>
+              <div class="data-class">
+                <label>Extra Large
+                  <input id="data-class-extra" data-class="extra large" type="file" webkitdirectory directory multiple />
+                </label>
+                <button class="btn" type="button" data-annotate="extra large">Annotate</button>
+                <button class="btn btn-danger" type="button" data-delete-images="extra large" disabled>Delete images</button>
+                <p class="hint" data-annotate-status="extra large">0 / 0 annotated</p>
+              </div>
+              <div class="data-class">
+                <label>Jumbo
+                  <input id="data-class-jumbo" data-class="jumbo" type="file" webkitdirectory directory multiple />
+                </label>
+                <button class="btn" type="button" data-annotate="jumbo">Annotate</button>
+                <button class="btn btn-danger" type="button" data-delete-images="jumbo" disabled>Delete images</button>
+                <p class="hint" data-annotate-status="jumbo">0 / 0 annotated</p>
+              </div>
+              </div>
+              <label>Train %
+                <input id="data-train-pct" type="number" min="1" max="98" value="70" required />
+              </label>
+              <label>Validation %
+                <input id="data-val-pct" type="number" min="1" max="98" value="20" required />
+              </label>
+              <label>Test %
+                <input id="data-test-pct" type="number" min="0" max="98" value="10" required />
+              </label>
+              <label>Random seed
+                <input id="data-seed" type="number" min="0" step="1" value="42" required />
+              </label>
+              <div class="button-row data-span">
+                <button id="data-process" class="btn btn-primary" type="submit" disabled>Prepare dataset</button>
+                <button id="data-train" class="btn btn-green" type="button" disabled>Start training</button>
+                <button id="data-use" class="btn btn-ghost" type="button" hidden>Use measured size bands</button>
+              </div>
+            </form>
+            <div id="data-job" hidden>
+              <p id="data-status" class="hint"></p>
+              <div class="def-progress-track"><div id="data-bar" class="def-progress-bar" style="width:0%"></div></div>
+              <ul id="data-steps" class="data-steps"></ul>
+            </div>
+            <p class="hint">Choose each size folder, annotate every egg, review, and save. Ctrl+Z undoes the last oval. YOLO labels use the saved ovals; physical millimetres require camera calibration.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="page-report" class="page">
+        <div class="button-row">
+          <button id="report-print" class="btn btn-ghost" type="button">Print / Save PDF</button>
+        </div>
+        <article class="card" id="report-body"><p class="empty">No data yet</p></article>
+      </section>
+
+      <section id="page-logs" class="page">
+        <header class="logs-heading">
+          <p>Review authentication, scan, verification, dataset, training, and system events.</p>
+          <div class="logs-heading-actions">
+            <button id="logs-refresh" class="btn btn-ghost" type="button"><span aria-hidden="true">↻</span> Refresh</button>
+            <button id="log-clear" class="btn btn-danger logs-clear-button" type="button">Clear logs</button>
+          </div>
+        </header>
+        <div class="logs-stats" aria-label="Activity summary">
+          <article class="logs-stat"><span>Matching logs</span><strong id="logs-stat-total">—</strong><small>Current filter scope</small></article>
+          <article class="logs-stat"><span>Info</span><strong id="logs-stat-info">—</strong><small>Matching filters · all levels</small></article>
+          <article class="logs-stat"><span>Warnings</span><strong id="logs-stat-warn">—</strong><small>Matching filters · all levels</small></article>
+          <article class="logs-stat"><span>Errors</span><strong id="logs-stat-error">—</strong><small>Matching filters · all levels</small></article>
+          <article class="logs-stat"><span>Recent · 24 hours</span><strong id="logs-stat-recent">—</strong><small>Matching filters · all levels</small></article>
+        </div>
+        <article class="card logs-card">
+          <div class="logs-toolbar" role="search" aria-label="Filter activity logs">
+          <label class="logs-search-field">Search activity
+              <input id="log-search" type="search" placeholder="Message or log ID" autocomplete="off" />
+            </label>
+            <label>Severity
+              <select id="log-level">
+                <option value="">All levels</option>
+                <option value="INFO">Info</option>
+                <option value="WARN">Warning</option>
+                <option value="ERROR">Error</option>
+              </select>
+            </label>
+            <label>Category
+              <select id="log-category">
+                <option value="">All categories</option>
+                <option value="authentication">Authentication</option>
+                <option value="scan">Scan</option>
+                <option value="verification">Verification</option>
+                <option value="dataset">Dataset</option>
+                <option value="training">Training</option>
+                <option value="system">System</option>
+              </select>
+            </label>
+            <label>User email
+              <input id="log-actor" type="search" placeholder="Filter by email" autocomplete="off" />
+            </label>
+            <label>From (UTC)
+              <input id="log-from" type="date" />
+            </label>
+            <label>To (UTC)
+              <input id="log-to" type="date" />
+            </label>
+            <button id="logs-reset" class="btn btn-ghost logs-reset-button" type="button" disabled>Clear filters</button>
+          </div>
+          <div id="logs-active-filters" class="logs-active-filters" aria-live="polite"></div>
+          <div id="logs-loading" class="logs-state" role="status" hidden><span class="logs-spinner" aria-hidden="true"></span>Loading activity…</div>
+          <div id="logs-error" class="logs-state logs-error-state" role="alert" hidden><span>Activity logs could not be loaded.</span><button id="logs-retry" class="btn btn-ghost" type="button">Retry</button></div>
+          <div id="log-empty" class="logs-empty" hidden><strong>No activity yet</strong><span>System events will appear here when they occur.</span></div>
+          <div id="logs-no-matches" class="logs-empty" hidden><strong>No events match these filters</strong><span>Try a broader search or clear the active filters.</span><button id="logs-empty-reset" class="btn btn-ghost" type="button">Clear filters</button></div>
+          <div id="logs-table-wrap" class="table-wrap logs-table-wrap">
+            <table class="log-table">
+              <caption class="logs-visually-hidden">Activity logs matching the current filters, newest first.</caption>
+              <thead><tr><th scope="col">Timestamp</th><th scope="col">Severity</th><th scope="col">Category</th><th scope="col">Actor</th><th scope="col">Event</th></tr></thead>
+              <tbody id="log-body"></tbody>
+            </table>
+          </div>
+          <div class="logs-table-footer"><p id="logs-range" class="hint" aria-live="polite"></p><div id="log-pager" class="pager"></div></div>
+        </article>
+        <dialog id="log-details-dialog" class="logs-dialog" aria-labelledby="log-details-title">
+          <div class="logs-dialog-head"><div><p class="eyebrow dark">Read-only audit event</p><h3 id="log-details-title">Event details</h3></div><button id="log-details-close" class="btn btn-ghost" type="button" aria-label="Close event details">Close</button></div>
+          <dl id="log-details-content" class="logs-detail-list"></dl>
+        </dialog>
+        <dialog id="log-clear-dialog" class="logs-dialog logs-clear-dialog" aria-labelledby="log-clear-title">
+          <div class="logs-dialog-head"><div><p class="eyebrow dark">Destructive action</p><h3 id="log-clear-title">Clear all activity logs?</h3></div></div>
+          <p>This permanently deletes every currently stored activity log entry, regardless of the active filters. This cannot be undone. If you continue, the system will write a new audit entry recording that the logs were cleared.</p>
+          <p id="logs-clear-error" class="logs-dialog-error" role="alert" hidden></p>
+          <div class="button-row logs-dialog-actions"><button id="log-clear-cancel" class="btn btn-ghost" type="button">Cancel</button><button id="log-clear-confirm" class="btn btn-danger" type="button">Clear all logs</button></div>
+        </dialog>
+      </section>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts"></div>
+  <div id="annotate-modal" class="modal" hidden>
+    <div class="modal-card annotate-card">
+      <div class="card-head">
+        <h3 id="annotate-title">Annotate</h3>
+        <button id="annotate-close" class="btn btn-ghost" type="button">Close</button>
+      </div>
+      <p id="annotate-progress" class="hint">Image 0 of 0</p>
+      <div class="button-row dataset-annotation-tools">
+        <button id="annotate-auto" class="btn btn-green" type="button">Detect egg contour</button>
+        <button id="annotate-reviewed" class="btn btn-ghost" type="button">Mark reviewed</button>
+        <button id="annotate-reset" class="btn btn-ghost" type="button" disabled>Restore saved annotation</button>
+      </div>
+      <label>Reference label from filename or review
+        <select id="annotate-reference-class">
+          <option value="">Choose a reference label</option>
+          <option value="Small">Small</option>
+          <option value="Medium">Medium</option>
+          <option value="Large">Large</option>
+          <option value="Extra Large">Extra Large</option>
+          <option value="Jumbo">Jumbo</option>
+        </select>
+      </label>
+      <p id="annotate-reference-source" class="hint">Filename label is separate from the dataset folder class and is not a verified physical size.</p>
+      <div id="annotate-stage" class="annotate-stage">
+        <p id="annotate-empty" class="annotate-empty" role="status" hidden>Upload a class folder to add images, then open an image here to annotate its eggs.</p>
+        <div class="annotate-frame">
+          <img id="annotate-image" alt="" />
+          <canvas id="annotate-canvas"></canvas>
+        </div>
+      </div>
+      <p id="annotate-pixels" class="hint">Oval: —</p>
+      <section id="annotate-measurements" class="annotate-measurements" hidden>
+        <h4>Contour dimensions (original-image pixels)</h4>
+        <div id="annotate-measurement-grid" class="measurement-grid"></div>
+        <p id="annotate-detection-warning" class="callout" hidden></p>
+      </section>
+      <p id="annotate-scale" class="hint">Drag to add an oval. Measurements are generated from the detected ellipse and camera calibration when available.</p>
+      <p class="hint">The folder class remains the dataset/training label. The selected filename/reference label is stored separately.</p>
+      <p id="annotate-state" class="hint">Not annotated</p>
+      <div class="button-row">
+        <button id="annotate-prev" class="btn btn-ghost" type="button">Previous</button>
+        <button id="annotate-save" class="btn btn-primary" type="button">Save annotation</button>
+        <button id="annotate-delete" class="btn btn-ghost" type="button">Delete annotation</button>
+        <button id="annotate-next" class="btn btn-ghost" type="button">Next</button>
+      </div>
+    </div>
+  </div>
+  <div id="modal" class="modal" hidden>
+    <div class="modal-card">
+      <h3 id="modal-title"></h3>
+      <p id="modal-body"></p>
+      <input id="modal-input" type="number" step="0.1" hidden />
+      <div class="button-row">
+        <button id="modal-cancel" class="btn btn-ghost" type="button">Cancel</button>
+        <button id="modal-ok" class="btn btn-primary" type="button">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="/static/js/annotate.js"></script>
+  <script src="/static/js/egg-login.js"></script>
+  <script src="/static/js/login.js"></script>
+  <script src="/static/js/defense.js"></script>
+  <script src="/static/js/live.js"></script>
+</body>
+</html>
