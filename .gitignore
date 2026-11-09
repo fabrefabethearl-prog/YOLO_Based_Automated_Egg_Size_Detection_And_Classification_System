@@ -16,6 +16,7 @@ dist/
 build/
 *.log
 data/*.db
+*.db
 data/scans/*
 !data/scans/.gitkeep
 data/dataset/images/**/*
@@ -34,3 +35,9 @@ yolo11n.pt
 yolo*.pt
 *.log
 .DS_Store
+
+# Temporary annotation databases
+.annotation-*/
+*.db-shm
+*.db-wal
+desktop.ini
