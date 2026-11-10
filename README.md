@@ -1,6 +1,9 @@
+
+
 # EggScan
 
 EggScan is a local lab tool for a capstone on chicken egg size detection. A camera frame goes through YOLO, the box is converted to millimetres, and a size class is saved. Size is estimated from the image. The size class comes from the measured length and area.
+
 
 The dashboard is a plain HTML page served by FastAPI. There is no demo data until you ask for it.
 
